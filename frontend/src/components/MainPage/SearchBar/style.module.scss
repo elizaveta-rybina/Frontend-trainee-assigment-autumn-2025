@@ -1,0 +1,32 @@
+$accent: #0d8c8b;
+$border: #dcdcdc;
+$text-secondary: #7a7a7a;
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	width: 50%;
+	margin-bottom: 16px;
+}
+
+.legend {
+	font-weight: 600;
+	font-size: 16px;
+	color: #333;
+}
+
+.input {
+	padding: 6px 10px;
+	border-radius: 6px;
+	border: 1px solid $border;
+	background: #fafafa;
+	font-size: 16px;
+	transition: border-color 0.15s ease, background 0.15s ease;
+
+	&:focus {
+		border-color: $accent;
+		background: #fff;
+		outline: none;
+	}
+}

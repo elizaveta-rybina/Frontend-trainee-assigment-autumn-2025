@@ -14,8 +14,7 @@ const statusConfig: Record<AdStatus, { text: string; class: string }> = {
 const priorityConfig: Partial<
 	Record<AdPriority, { text: string; class: string }>
 > = {
-	urgent: { text: 'Срочно', class: cls.priorityUrgent },
-	critical: { text: 'Критично', class: cls.priorityCritical }
+	urgent: { text: 'Срочно', class: cls.priorityUrgent }
 }
 
 export const ProductCard: React.FC<{
