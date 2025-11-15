@@ -1,0 +1,60 @@
+.sortContainer {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin-bottom: 16px;
+	font-size: 14px;
+}
+
+.label {
+	color: #555;
+	font-weight: 500;
+}
+
+.buttons {
+	display: flex;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.sortBtn {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 10px;
+	background: #f5f5f5;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #333;
+	cursor: pointer;
+	transition: all 0.2s;
+
+	&:hover {
+		background: #ebebeb;
+		border-color: #bbb;
+	}
+
+	&.active {
+		background: #0ea5a4;
+		color: white;
+		border-color: #0ea5a4;
+
+		.icon {
+			color: white;
+		}
+	}
+}
+
+.icon {
+	font-size: 12px;
+	color: #999;
+}
+
+.current {
+	color: #0ea5a4;
+	font-weight: 600;
+	font-size: 13px;
+}
