@@ -1,5 +1,11 @@
+import { ProductCardList } from '@/components/MainPage/ProductList/component'
+
 const MainPage = () => {
-	return <div>MainPage</div>
+	return (
+		<div>
+			<ProductCardList />
+		</div>
+	)
 }
 
 export default MainPage
