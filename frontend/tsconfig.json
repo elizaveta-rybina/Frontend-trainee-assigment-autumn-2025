@@ -24,6 +24,6 @@
 			"@shared/*": ["shared/*"]
 		}
 	},
-	"include": ["src"],
+	"include": ["src", "jest.config.ts"],
 	//"references": [{ "path": "./tsconfig.node.json" }]
 }
