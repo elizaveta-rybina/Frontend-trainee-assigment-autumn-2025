@@ -43,7 +43,7 @@ export interface Advertisement {
 export interface Pagination {
 	page: number
 	limit: number
-	total: number
+	totalItems: number
 	totalPages: number
 }
 
