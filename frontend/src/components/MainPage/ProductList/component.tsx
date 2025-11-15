@@ -1,8 +1,10 @@
+import { useAds } from '@/app/api/api'
+import { GetAdsParams } from '@/app/api/types'
 import clsx from 'clsx'
 import React, { useState } from 'react'
-import { Pagination } from '../Pagination/component'
-import { ProductCard } from '../ProductCard/component'
-import { useAds } from './api'
+import { Pagination } from '../Pagination'
+import { ProductCard } from '../ProductCard'
+import { SortSelect } from '../Sort'
 import cls from './style.module.scss'
 
 const SKELETON_COUNT = 10
@@ -11,11 +13,20 @@ export const ProductCardList: React.FC = () => {
 	const [page, setPage] = useState(1)
 	const limit = SKELETON_COUNT
 
-	const { data, isLoading, error } = useAds({ page, limit })
+	const [sortParams, setSortParams] = useState<GetAdsParams>({
+		sortBy: 'createdAt',
+		sortOrder: 'desc'
+	})
+
+	const { data, isLoading, error } = useAds({ page, limit, ...sortParams })
 
 	const ads = data?.ads ?? []
 	const totalItems = data?.pagination?.totalItems ?? 0
-	const totalPages = Math.ceil(totalItems / limit)
+
+	const handleSortChange = (newParams: GetAdsParams) => {
+		setSortParams(newParams)
+		setPage(1)
+	}
 
 	const renderSkeletons = () =>
 		Array.from({ length: SKELETON_COUNT }).map((_, i) => (
@@ -42,6 +53,11 @@ export const ProductCardList: React.FC = () => {
 				<h2 className={cls.title}>Объявления</h2>
 				<p className={cls.total}>Всего: {totalItems} объявлений</p>
 			</header>
+
+			<SortSelect
+				currentParams={{ ...sortParams, page, limit }}
+				onParamsChange={handleSortChange}
+			/>
 
 			<div className={cls.grid}>
 				{isLoading ? renderSkeletons() : renderAds()}

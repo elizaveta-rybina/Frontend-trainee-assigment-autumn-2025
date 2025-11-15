@@ -1,4 +1,4 @@
-import { ProductCardList } from '@/components/MainPage/ProductList/component'
+import { ProductCardList } from '@/components/MainPage'
 
 const MainPage = () => {
 	return (

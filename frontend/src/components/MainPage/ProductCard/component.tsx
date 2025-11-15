@@ -1,7 +1,7 @@
+import { AdPriority, AdStatus, Advertisement } from '@/app/api/types'
 import clsx from 'clsx'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AdPriority, AdStatus, Advertisement } from '../ProductList/types'
 import cls from './style.module.scss'
 
 const statusConfig: Record<AdStatus, { text: string; class: string }> = {
