@@ -1,29 +1,33 @@
 import { API_BASE_URL } from '@/shared/config/apiConfig'
-import { useQuery, UseQueryOptions } from '@tanstack/react-query'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import type { AdsResponse, GetAdsParams } from './types'
 
-const fetchAds = async (params: GetAdsParams = {}): Promise<AdsResponse> => {
-	const response: AxiosResponse<AdsResponse> = await axios.get(
-		`${API_BASE_URL}/ads`,
-		{
-			params: {
-				...params,
-				status: params.status?.join(',')
-			}
+const api: AxiosInstance = axios.create({
+	baseURL: API_BASE_URL
+})
+
+export const buildQueryParams = (params: GetAdsParams = {}): string => {
+	const query = new URLSearchParams()
+
+	Object.entries(params).forEach(([key, value]) => {
+		if (value === undefined || value === null) return
+
+		if (key === 'status') {
+			const statuses = Array.isArray(value) ? value : [value]
+			statuses.forEach(s => query.append('status', s))
+			return
 		}
-	)
-	return response.data
+
+		query.append(key, String(value))
+	})
+
+	return query.toString()
 }
 
-export const useAds = (
-	params: GetAdsParams = {},
-	options?: UseQueryOptions<AdsResponse, Error>
-) => {
-	return useQuery<AdsResponse, Error>({
-		queryKey: ['ads', params],
-		queryFn: () => fetchAds(params),
-		staleTime: 1000 * 60,
-		...options
-	})
+export const fetchAds = async (
+	params: GetAdsParams = {}
+): Promise<AdsResponse> => {
+	const queryString = buildQueryParams(params)
+	const { data } = await api.get<AdsResponse>(`/ads?${queryString}`)
+	return data
 }

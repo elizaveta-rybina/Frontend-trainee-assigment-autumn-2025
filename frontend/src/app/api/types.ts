@@ -1,5 +1,8 @@
-export type AdStatus = 'pending' | 'approved' | 'rejected' | 'draft'
-export type AdPriority = 'low' | 'normal' | 'urgent' | 'critical'
+export const AD_STATUSES = ['pending', 'approved', 'rejected', 'draft'] as const
+export type AdStatus = (typeof AD_STATUSES)[number]
+
+export const AD_PRIORITIES = ['normal', 'urgent'] as const
+export type AdPriority = (typeof AD_PRIORITIES)[number]
 
 export interface Seller {
 	id: number
@@ -7,6 +10,11 @@ export interface Seller {
 	rating: string
 	totalAds: number
 	registeredAt: string
+}
+
+export interface Category {
+	id: number
+	name: string
 }
 
 export interface ModerationAction {
