@@ -8,10 +8,7 @@ interface ModerationPanelProps {
 	onSuccess?: () => void
 }
 
-export default function ModerationPanel({
-	adId,
-	onSuccess
-}: ModerationPanelProps) {
+export const ModerationPanel = ({ adId, onSuccess }: ModerationPanelProps) => {
 	const {
 		isModerating,
 		moderationMode,

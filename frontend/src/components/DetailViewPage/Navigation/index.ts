@@ -1,0 +1,1 @@
+export { ModerationNavigation } from './component';

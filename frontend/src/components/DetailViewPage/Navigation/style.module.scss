@@ -1,0 +1,60 @@
+.navContainer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 0;
+	background: transparent;
+	border: none;
+	color: #6b7280;
+	gap: 16px;
+}
+
+.navButton {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 16px;
+	background: transparent;
+	color: #929690;
+	border: none;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	cursor: pointer;
+
+	&:hover:not(:disabled) {
+		color: #465248;
+	}
+
+	&:disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+	}
+
+	.icon {
+		width: 16px;
+		height: 16px;
+		opacity: 0.7;
+	}
+
+	.label {
+		@media (max-width: 640px) {
+			display: none;
+		}
+	}
+}
+
+.prev {
+	flex-direction: row;
+}
+
+.next {
+	flex-direction: row-reverse;
+}
+
+.counter {
+	font-weight: 500;
+	color: #9ca3af;
+	min-width: 50px;
+	text-align: center;
+	font-size: 12px;
+}
