@@ -1,0 +1,1 @@
+export { DetailViewWidget } from './component'
