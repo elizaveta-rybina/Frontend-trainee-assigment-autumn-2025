@@ -1,0 +1,55 @@
+.periodSelector {
+	display: flex;
+	background: #f3f4f6;
+	border-radius: 10px;
+	padding: 4px;
+	gap: 4px;
+	width: fit-content;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+	@media (max-width: 480px) {
+		width: 100%;
+		justify-content: stretch;
+	}
+}
+
+.periodBtn {
+	flex: 1;
+	min-width: 80px;
+	padding: 8px 16px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #6b7280;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	text-align: center;
+
+	&:hover {
+		color: #374151;
+	}
+
+	&.active {
+		background: white;
+		color: #1f2937;
+		font-weight: 600;
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+	}
+
+	@media (max-width: 480px) {
+		padding: 10px 8px;
+		font-size: 13px;
+		min-width: auto;
+	}
+}
+
+.periodBtn:focus-visible {
+	outline: 2px solid #6366f1;
+	outline-offset: -2px;
+}
+
+.periodBtn {
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
