@@ -1,6 +1,6 @@
 import { API_BASE_URL } from '@/shared/config/apiConfig'
 import axios, { AxiosInstance } from 'axios'
-import type { AdsResponse, GetAdsParams } from './types'
+import type { AdsResponse, Advertisement, GetAdsParams } from './types'
 
 const api: AxiosInstance = axios.create({
 	baseURL: API_BASE_URL
@@ -29,5 +29,10 @@ export const fetchAds = async (
 ): Promise<AdsResponse> => {
 	const queryString = buildQueryParams(params)
 	const { data } = await api.get<AdsResponse>(`/ads?${queryString}`)
+	return data
+}
+
+export const fetchAdById = async (id: number): Promise<Advertisement> => {
+	const { data } = await api.get<Advertisement>(`/ads/${id}`)
 	return data
 }

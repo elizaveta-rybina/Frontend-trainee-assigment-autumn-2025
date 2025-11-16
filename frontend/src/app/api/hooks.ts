@@ -1,6 +1,6 @@
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { fetchAds } from './api'
+import { fetchAdById, fetchAds } from './api'
 import type {
 	AdsResponse,
 	Advertisement,
@@ -17,6 +17,19 @@ export const useAds = (
 		queryFn: () => fetchAds(params),
 		staleTime: 60_000,
 		gcTime: 5 * 60_000,
+		...options
+	})
+
+export const useAdById = (
+	id: number,
+	options?: UseQueryOptions<Advertisement, Error>
+) =>
+	useQuery<Advertisement, Error>({
+		queryKey: ['ad', id],
+		queryFn: () => fetchAdById(id),
+		staleTime: 60_000,
+		gcTime: 10 * 60_000,
+		enabled: !!id && !isNaN(id),
 		...options
 	})
 
