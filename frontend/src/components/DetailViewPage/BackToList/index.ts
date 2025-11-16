@@ -1,0 +1,1 @@
+export { Back } from './component'
