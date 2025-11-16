@@ -20,7 +20,6 @@ import type {
 	ModerationRequestBody
 } from './types'
 
-
 // Get запросы
 export const useAds = (
 	params: GetAdsParams = {},
@@ -95,5 +94,36 @@ export const useRequestChanges = () => {
 			queryClient.invalidateQueries({ queryKey: ['ads'] })
 			queryClient.invalidateQueries({ queryKey: ['ad', id] })
 		}
+	})
+}
+
+// подумать как лучше сделать этот хук
+export const usePendingAds = () => {
+	return useQuery<number[], Error>({
+		queryKey: ['pending-ad-ids', 'all'],
+		queryFn: async (): Promise<number[]> => {
+			const allIds: number[] = []
+			let page = 1
+			let hasMore = true
+
+			while (hasMore) {
+				const response: AdsResponse = await fetchAds({
+					status: ['pending'],
+					page,
+					limit: 100
+				})
+
+				const ids = response.ads.map(ad => ad.id)
+				allIds.push(...ids)
+
+				hasMore = page < response.pagination.totalPages
+				page++
+			}
+
+			return allIds
+		},
+		staleTime: 5 * 60_000,
+		gcTime: 10 * 60_000,
+		refetchOnWindowFocus: false
 	})
 }
