@@ -1,7 +1,7 @@
-export const AD_STATUSES = ['pending', 'approved', 'rejected', 'draft'] as const
+import { AD_PRIORITIES, AD_STATUSES, MODERATION_REASONS } from './consts'
+
 export type AdStatus = (typeof AD_STATUSES)[number]
 
-export const AD_PRIORITIES = ['normal', 'urgent'] as const
 export type AdPriority = (typeof AD_PRIORITIES)[number]
 
 export interface Seller {
@@ -71,3 +71,24 @@ export interface GetAdsParams {
 	sortBy?: 'createdAt' | 'price' | 'priority'
 	sortOrder?: 'asc' | 'desc'
 }
+
+export type ModerationReason = (typeof MODERATION_REASONS)[number]
+
+export interface ApiSuccessResponse<T = unknown> {
+	message: string
+	ad: T
+}
+
+export interface ApiErrorResponse {
+	error: string
+	details?: Record<string, any>
+}
+
+export interface ModerationRequestBody {
+	reason: ModerationReason
+	comment?: string
+}
+
+export type ApproveAdResponse = ApiSuccessResponse<Advertisement>
+export type RejectAdResponse = ApiSuccessResponse<Advertisement>
+export type RequestChangesResponse = ApiSuccessResponse<Advertisement>

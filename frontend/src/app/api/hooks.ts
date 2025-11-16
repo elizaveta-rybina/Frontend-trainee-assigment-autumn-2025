@@ -1,13 +1,27 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import {
+	useMutation,
+	useQuery,
+	useQueryClient,
+	UseQueryOptions
+} from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { fetchAdById, fetchAds } from './api'
+import {
+	approveAd,
+	fetchAdById,
+	fetchAds,
+	rejectAd,
+	requestChanges
+} from './api'
 import type {
 	AdsResponse,
 	Advertisement,
 	Category,
-	GetAdsParams
+	GetAdsParams,
+	ModerationRequestBody
 } from './types'
 
+
+// Get запросы
 export const useAds = (
 	params: GetAdsParams = {},
 	options?: UseQueryOptions<AdsResponse, Error>
@@ -46,4 +60,40 @@ export const useCategoriesFromAds = (ads: Advertisement[]): Category[] => {
 
 		return Array.from(map.entries()).map(([id, name]) => ({ id, name }))
 	}, [ads])
+}
+
+// post запросы
+export const useApproveAd = () => {
+	const queryClient = useQueryClient()
+	return useMutation({
+		mutationFn: approveAd,
+		onSuccess: (_, id) => {
+			queryClient.invalidateQueries({ queryKey: ['ads'] })
+			queryClient.invalidateQueries({ queryKey: ['ad', id] })
+		}
+	})
+}
+
+export const useRejectAd = () => {
+	const queryClient = useQueryClient()
+	return useMutation({
+		mutationFn: ({ id, body }: { id: number; body: ModerationRequestBody }) =>
+			rejectAd(id, body),
+		onSuccess: (_, { id }) => {
+			queryClient.invalidateQueries({ queryKey: ['ads'] })
+			queryClient.invalidateQueries({ queryKey: ['ad', id] })
+		}
+	})
+}
+
+export const useRequestChanges = () => {
+	const queryClient = useQueryClient()
+	return useMutation({
+		mutationFn: ({ id, body }: { id: number; body: ModerationRequestBody }) =>
+			requestChanges(id, body),
+		onSuccess: (_, { id }) => {
+			queryClient.invalidateQueries({ queryKey: ['ads'] })
+			queryClient.invalidateQueries({ queryKey: ['ad', id] })
+		}
+	})
 }
