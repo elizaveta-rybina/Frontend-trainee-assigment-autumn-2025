@@ -1,5 +1,6 @@
 import type { AdStatus, GetAdsParams } from '@/app/api/types'
-import { AD_STATUSES } from '@/app/api/types'
+
+import { AD_STATUSES } from '@/app/api/consts'
 import React from 'react'
 import { useFilters } from './hooks'
 import cls from './style.module.scss'
