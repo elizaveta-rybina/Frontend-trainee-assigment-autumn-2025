@@ -7,11 +7,24 @@ import {
 import { useMemo } from 'react'
 import {
 	approveAd,
+	fetchActivityChart,
 	fetchAdById,
 	fetchAds,
+	fetchCategoriesChart,
+	fetchCurrentModerator,
+	fetchDecisionsChart,
+	fetchStatsSummary,
 	rejectAd,
 	requestChanges
 } from './api'
+import {
+	ActivityChartResponse,
+	CategoriesChartResponse,
+	DecisionsChartResponse,
+	ModeratorResponse,
+	StatsPeriodParams,
+	StatsSummaryResponse
+} from './stats.types'
 import type {
 	AdsResponse,
 	Advertisement,
@@ -45,8 +58,6 @@ export const useAdById = (
 		enabled: !!id && !isNaN(id),
 		...options
 	})
-
-// найти более простой способ получения категорий без отдельного запроса
 export const useCategoriesFromAds = (ads: Advertisement[]): Category[] => {
 	return useMemo(() => {
 		const map = new Map<number, string>()
@@ -97,7 +108,6 @@ export const useRequestChanges = () => {
 	})
 }
 
-// подумать как лучше сделать этот хук
 export const usePendingAds = () => {
 	return useQuery<number[], Error>({
 		queryKey: ['pending-ad-ids', 'all'],
@@ -127,3 +137,89 @@ export const usePendingAds = () => {
 		refetchOnWindowFocus: false
 	})
 }
+
+export const useStatsSummary = (
+	params?: StatsPeriodParams,
+	options?: UseQueryOptions<StatsSummaryResponse, Error>
+) =>
+	useQuery<StatsSummaryResponse, Error>({
+		queryKey: [
+			'stats',
+			'summary',
+			params?.period,
+			params?.startDate,
+			params?.endDate
+		],
+		queryFn: () => fetchStatsSummary(params),
+		staleTime: 5 * 60_000,
+		gcTime: 10 * 60_000,
+		...options
+	})
+
+export const useActivityChart = (
+	params?: StatsPeriodParams,
+	options?: UseQueryOptions<ActivityChartResponse, Error>
+) =>
+	useQuery<ActivityChartResponse, Error>({
+		queryKey: [
+			'stats',
+			'chart',
+			'activity',
+			params?.period,
+			params?.startDate,
+			params?.endDate
+		],
+		queryFn: () => fetchActivityChart(params),
+		staleTime: 5 * 60_000,
+		gcTime: 10 * 60_000,
+		...options
+	})
+
+export const useDecisionsChart = (
+	params?: StatsPeriodParams,
+	options?: UseQueryOptions<DecisionsChartResponse, Error>
+) =>
+	useQuery<DecisionsChartResponse, Error>({
+		queryKey: [
+			'stats',
+			'chart',
+			'decisions',
+			params?.period,
+			params?.startDate,
+			params?.endDate
+		],
+		queryFn: () => fetchDecisionsChart(params),
+		staleTime: 5 * 60_000,
+		gcTime: 10 * 60_000,
+		...options
+	})
+
+export const useCategoriesChart = (
+	params?: StatsPeriodParams,
+	options?: UseQueryOptions<CategoriesChartResponse, Error>
+) =>
+	useQuery<CategoriesChartResponse, Error>({
+		queryKey: [
+			'stats',
+			'chart',
+			'categories',
+			params?.period,
+			params?.startDate,
+			params?.endDate
+		],
+		queryFn: () => fetchCategoriesChart(params),
+		staleTime: 5 * 60_000,
+		gcTime: 10 * 60_000,
+		...options
+	})
+
+export const useCurrentModerator = (
+	options?: UseQueryOptions<ModeratorResponse, Error>
+) =>
+	useQuery<ModeratorResponse, Error>({
+		queryKey: ['moderator', 'me'],
+		queryFn: () => fetchCurrentModerator(),
+		staleTime: 10 * 60_000,
+		gcTime: 30 * 60_000,
+		...options
+	})
